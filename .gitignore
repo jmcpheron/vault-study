@@ -24,5 +24,7 @@ uv.lock
 .idea/
 *.swp
 
-# Generated artifacts (CI rebuilds these — don't commit by hand)
-docs/assets/generated/
+# Generated artifacts. Currently checked in so GitHub Pages can serve
+# them — once cad-artifacts.yml is wired to auto-commit (see plan), we
+# can re-ignore this directory and let CI keep it in sync.
+# docs/assets/generated/

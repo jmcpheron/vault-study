@@ -7,7 +7,7 @@ from pathlib import Path
 
 import click
 
-from vaultkit import gears, params
+from vaultkit import gears, mesh, params, step_io
 
 
 @click.group()
@@ -55,21 +55,52 @@ def gears_info() -> None:
 
 @main.group()
 def step() -> None:
-    """STEP file inspection and tessellation. (Not yet implemented.)"""
+    """STEP file inspection and tessellation."""
 
 
 @step.command("inspect")
 @click.argument("path", type=click.Path(exists=True, path_type=Path))
-def step_inspect(path: Path) -> None:
+@click.option(
+    "--deflection",
+    type=float,
+    default=0.5,
+    show_default=True,
+    help="Tessellation deflection in mm (smaller = more triangles, slower).",
+)
+def step_inspect(path: Path, deflection: float) -> None:
     """Print AP242 schema, assembly tree, bounding box, tessellation stats."""
-    click.echo(f"vaultkit step inspect {path}: not yet implemented.", err=True)
-    click.echo(
-        "Heavy STEP/render pipeline is deferred — see plan in "
-        "/Users/jason/.claude/plans/start-building-this-vault-stateful-rabin.md "
-        "and the stubs in src/vaultkit/step_io.py.",
-        err=True,
-    )
-    sys.exit(2)
+    report = step_io.inspect(path, deflection_mm=deflection)
+    click.echo(step_io.format_report(report))
+
+
+@step.command("render")
+@click.argument("path", type=click.Path(exists=True, path_type=Path))
+@click.option(
+    "--out",
+    "out_png",
+    type=click.Path(path_type=Path),
+    required=True,
+    help="Output PNG path.",
+)
+@click.option(
+    "--deflection",
+    type=float,
+    default=0.3,
+    show_default=True,
+    help="Tessellation deflection in mm (smaller = smoother render, slower).",
+)
+@click.option(
+    "--size",
+    type=int,
+    default=1200,
+    show_default=True,
+    help="Output image edge length in pixels (square).",
+)
+def step_render(path: Path, out_png: Path, deflection: float, size: int) -> None:
+    """Render a STEP file as an isometric PNG (hero/comparison image)."""
+    click.echo(f"Rendering {path} → {out_png} (deflection {deflection} mm)…", err=True)
+    mesh.render_iso(path, out_png, deflection_mm=deflection, size_px=(size, size))
+    click.echo(f"Wrote {out_png}", err=True)
 
 
 # ── bom (stub) ───────────────────────────────────────────────────────────

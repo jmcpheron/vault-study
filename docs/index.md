@@ -47,6 +47,9 @@ That's the whole machine. The rest is dimensions.
 - [FDM design considerations](fdm-variant.html) — what changes when
   the geometry has to come off a Bambu A1 in PETG. Cylinders → hex
   stock, tolerances, layer orientation.
+- [Faithful vs FDM, side by side](faithful-vs-fdm.html) — what's
+  currently in each STEP file, what's the same, what diverges, and
+  what's still missing.
 - [Build log](build-log.html) — informal session notes.
 - [Sources](sources.html) — the videos, with timestamps and
   attribution.
