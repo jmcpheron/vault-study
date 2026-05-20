@@ -4,6 +4,13 @@ title: The gearing math
 
 # The gearing math
 
+<p style="text-align:center; margin: 1em 0;">
+  <img src="assets/generated/gear-mesh.animated.svg"
+       alt="A 120-tooth internal ring gear meshes with a 24-tooth spur gear. The spur counter-rotates at five times the ring's angular speed."
+       width="400"
+       style="max-width:100%; height:auto;">
+</p>
+
 The vault has just one number that matters more than any other: the
 **gear module**.
 

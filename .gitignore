@@ -24,6 +24,10 @@ uv.lock
 .idea/
 *.swp
 
+# Tool scratch directories
+.playwright-mcp/
+.claude/
+
 # Generated artifacts. Currently checked in so GitHub Pages can serve
 # them — once cad-artifacts.yml is wired to auto-commit (see plan), we
 # can re-ignore this directory and let CI keep it in sync.

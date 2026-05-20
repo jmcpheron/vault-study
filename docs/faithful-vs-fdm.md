@@ -4,14 +4,14 @@ title: Faithful vs FDM
 
 # Faithful vs FDM, side by side
 
-Two variants in parallel: one CAD reinterpretation of Adam Savage's
-machined design, one redesign for desktop 3D printers. They share
+Two variants in parallel: a CAD reinterpretation of Adam Savage's
+machined design and a redesign for desktop 3D printers. They share
 the mechanism — module 0.5 gears, 12 pins, 120/24 tooth counts — and
-diverge in everything to do with manufacturing.
+diverge on everything to do with manufacturing.
 
-This page shows what's *currently* in each STEP file, what the
-geometry choices reveal about the two design philosophies, and what
-each variant is still missing relative to
+This page is the diff. We show what's currently in each STEP file,
+what the geometry choices reveal about the two design philosophies,
+and what each variant is still missing relative to
 [`specs.md`](https://github.com/jmcpheron/vault-study/blob/main/specs.md).
 
 All numbers below come from `vaultkit step inspect`, run against
@@ -33,7 +33,7 @@ the two STEP files in
 
 The X/Z dimensions are nearly identical (within 0.2 mm) — both
 target a 6-inch / ~152 mm outer-diameter envelope. The Y dimension
-is what tells the story:
+is what tells us the story:
 
 - **Faithful: 50 mm (~1.97")** — closer to the combined acrylic-hub
   (1.25") + cast-iron-puck face thickness. The geometry mimics the
@@ -129,23 +129,23 @@ subsystem on purpose — see
 
 ## Why the FDM file is more developed
 
-A surprise from the entity-type histogram: the FDM STEP has **28
+A surprise we hit while writing this page: the FDM STEP has **28
 conical surfaces, 8 toroidal surfaces, 193 ellipses**. The faithful
 STEP has **zero of each**.
 
-That's not a mistake — it reflects two different states of progress:
+That's not a mistake — it's two different states of progress:
 
 - The **FDM variant** has gotten farther in the redesign, including
   the fillets, chamfers, and rounded transitions that make
-  individual parts printable. Sharp corners snap on FDM prints;
-  the FDM redesign rounded them off, which means many curved
-  surfaces in the geometry.
+  individual parts printable. Sharp corners snap on FDM prints; we
+  rounded them off, which means lots of curved surfaces in the
+  geometry.
 - The **faithful variant** is still at the "block out the basic
   shapes" stage. The 10° tapered edge from part-3 — which would
-  produce conical surfaces in the STEP — hasn't been added yet.
+  produce conical surfaces in the STEP — hasn't landed yet.
 
-In other words: the FDM variant isn't simpler. It's *more refined,
-in a different direction*.
+So the FDM variant isn't simpler. It's *more refined, in a different
+direction*.
 
 ## Reproducing this page
 
