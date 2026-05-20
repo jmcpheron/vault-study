@@ -280,6 +280,18 @@ def explain_render(
     click.echo("→ interactive mechanism (Jekyll include)", err=True)
     schematic.full_mechanism_interactive(includes_dir / "mechanism-interactive.svg")
 
+    click.echo("→ technical top view", err=True)
+    schematic.technical_top_view_svg(out_dir / "technical-top-view.svg")
+
+    click.echo("→ rack-pinion close-up (static + interactive)", err=True)
+    schematic.rack_pinion_closeup_svg(out_dir / "rack-pinion-closeup.svg")
+    schematic.rack_pinion_closeup_svg(
+        includes_dir / "pin-travel-closeup.svg", interactive=True,
+    )
+
+    click.echo("→ pin-travel diagram", err=True)
+    schematic.pin_travel_diagram_svg(out_dir / "pin-travel-diagram.svg")
+
     # Whole-assembly iso renders.
     for variant, step_file in [
         ("faithful", "step-source/unauthorized-vault-clone.step"),

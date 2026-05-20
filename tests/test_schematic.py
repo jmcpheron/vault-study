@@ -64,3 +64,66 @@ def test_reduced_motion_css_present(tmp_path: Path) -> None:
     out = tmp_path / "mesh.svg"
     schematic.gear_mesh_svg(out, animated=True)
     assert "prefers-reduced-motion" in out.read_text()
+
+
+def test_technical_top_view_contains_dimension_labels(tmp_path: Path) -> None:
+    out = tmp_path / "topview.svg"
+    schematic.technical_top_view_svg(out)
+    text = out.read_text()
+    assert "120 internal teeth" in text
+    assert f"{schematic.params.SPUR_TEETH} teeth" in text
+    assert "Ø60" in text  # ring pitch diameter
+    assert f"Ø{schematic.params.SPUR_BCD_MM}" in text  # BCD callout
+    assert "30°" in text  # spacing angle
+    assert "<marker" in text  # arrow marker registered
+
+
+def test_rack_pinion_closeup_contains_pitch_point(tmp_path: Path) -> None:
+    out = tmp_path / "closeup.svg"
+    schematic.rack_pinion_closeup_svg(out)
+    text = out.read_text()
+    assert "pitch point" in text
+    assert "r = 6 mm" in text  # spur pitch radius
+    assert "π·m" in text  # tooth-pitch callout
+    assert "rack disengages" in text
+    assert 'id="pt-active-dim"' in text
+
+
+def test_rack_pinion_closeup_interactive_has_ids(tmp_path: Path) -> None:
+    out = tmp_path / "closeup-interactive.svg"
+    schematic.rack_pinion_closeup_svg(out, interactive=True)
+    text = out.read_text()
+    # Jekyll-include variant: no XML decl.
+    assert not text.startswith("<?xml")
+    # Stable IDs the slider needs.
+    assert 'id="pt-rackpin"' in text
+    assert 'id="pt-svg"' in text
+    assert 'id="pt-active-dim"' in text
+
+
+def test_pin_travel_diagram_shows_both_states(tmp_path: Path) -> None:
+    out = tmp_path / "pintravel.svg"
+    schematic.pin_travel_diagram_svg(out, ring_angle_deg=15.0)
+    text = out.read_text()
+    assert "at rest" in text
+    assert "after 15° throw" in text
+    assert "Δr = 7.85 mm" in text  # computed travel for 15° ring
+    assert f"Ø{schematic.params.PIN_DIAMETER_MM}" in text
+    assert "door body bore" in text
+    assert "frame receiver" in text
+
+
+def test_new_technical_svgs_reproducible(tmp_path: Path) -> None:
+    """Each new generator should produce byte-identical output across runs."""
+    for name, generator in [
+        ("topview", schematic.technical_top_view_svg),
+        ("closeup", schematic.rack_pinion_closeup_svg),
+        ("pintravel", schematic.pin_travel_diagram_svg),
+    ]:
+        out1 = tmp_path / f"{name}-1.svg"
+        out2 = tmp_path / f"{name}-2.svg"
+        generator(out1)
+        generator(out2)
+        assert out1.read_bytes() == out2.read_bytes(), (
+            f"{name} is not reproducible — something time-dependent crept in."
+        )

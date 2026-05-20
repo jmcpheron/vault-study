@@ -91,6 +91,8 @@ project is dimensions.
 
 ## More to dig into
 
+- [Pin travel](pin-travel.html) — how far do the pins extend for a
+  given lever throw, with technical drawings and the math.
 - [The gearing math](gearing-math.html) — module, tooth counts, why
   the 5:1 ratio falls out for free.
 - [Why twelve pins?](why-twelve-pins.html) — divisor math and the
