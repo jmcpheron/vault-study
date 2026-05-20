@@ -1,0 +1,13 @@
+title: Vault Study
+description: A hobby CAD study of Adam Savage's 1/12-scale bank-vault door — faithful and FDM-friendly variants.
+theme: jekyll-theme-cayman
+markdown: kramdown
+
+# So [[file.md]]-style relative links render cleanly on github.io
+permalink: pretty
+
+# Don't publish the README pulled from repo root (we have our own index.md)
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock

@@ -1,0 +1,53 @@
+name: CAD artifacts (manual)
+
+# Manual-only until the step_io / mesh / explainer-render stubs in
+# src/vaultkit/ are implemented. Activating this on push before the
+# stubs are real would generate empty commits or noise.
+#
+# When ready to enable on push:
+#   1. Implement step_io.inspect, mesh.explode, mesh.render_iso,
+#      explainers.render.render_all.
+#   2. Replace the workflow_dispatch trigger with:
+#        push:
+#          branches: [main]
+#          paths:
+#            - "step-source/**"
+#            - "src/vaultkit/**"
+#            - ".github/workflows/cad-artifacts.yml"
+#   3. Update the rebase-retry-push step below — it currently noops.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install (heavy extras)
+        run: pip install -e ".[heavy,dev]"
+
+      - name: Regenerate explainer-page diagrams
+        run: |
+          echo "TODO: vaultkit explain render --out docs/assets/generated/"
+          echo "(stub — see src/vaultkit/explainers/render.py)"
+
+      - name: Inspect STEP files
+        run: |
+          echo "TODO: vaultkit step inspect step-source/*.step"
+          echo "(stub — see src/vaultkit/step_io.py)"
+
+      - name: Commit and push (with rebase-and-retry)
+        run: |
+          echo "TODO: implement once outputs are real."
+          echo "Pattern: git add docs/assets/generated/ && git commit -m 'CI: regen artifacts' || true"
+          echo "         git pull --rebase && git push  || exit 1"

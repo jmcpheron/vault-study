@@ -1,0 +1,23 @@
+3D Geometry License — Creative Commons Attribution-ShareAlike 4.0 International
+
+Copyright (c) 2026 Jason McPheron
+
+The 3D geometry in this repository — every STEP file under `step-source/`
+and `cad/`, every STL/3MF/render derived from them, and the parametric
+Onshape documents they were exported from — is licensed under the
+Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0).
+
+  https://creativecommons.org/licenses/by-sa/4.0/
+
+In plain language: you may remix, adapt, and build on this work, including
+commercially, as long as you (a) credit the original work and (b) license
+your derivative work under the same license.
+
+This work is a derivative study of Adam Savage's miniature vault-door
+build series on the Tested YouTube channel. The mechanism design,
+proportions, and gear math are Adam's; this repository is an
+independent CAD reinterpretation for educational and hobby purposes.
+See `ACKNOWLEDGMENTS.md`.
+
+The **code** that processes the geometry is licensed separately under
+MIT — see `LICENSE`.
