@@ -12,6 +12,10 @@ license = { text = "MIT" }
 authors = [{ name = "Jason McPheron" }]
 dependencies = [
     "click>=8.1",
+    # drawsvg is needed by vaultkit.explainers.schematic (and the
+    # schematic tests). Pure-Python, no native code, ~100 KB — keep
+    # it in base so light installs can still generate 2D SVGs.
+    "drawsvg>=2.3",
 ]
 
 [project.optional-dependencies]
@@ -20,7 +24,6 @@ heavy = [
     "cadquery-ocp>=7.7",
     "trimesh>=4.0",
     "matplotlib>=3.8",
-    "drawsvg>=2.3",
 ]
 
 # Dev: testing + lint. Light enough to install in CI for prose-only PRs.

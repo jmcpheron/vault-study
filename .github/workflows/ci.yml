@@ -16,8 +16,12 @@ jobs:
           python-version: "3.11"
           cache: pip
 
-      - name: Install (light + dev extras only)
-        run: pip install -e ".[dev]"
+      # Install heavy + dev together. cadquery-ocp is ~180 MB but pip's
+      # cache (keyed on pyproject.toml) keeps later runs fast. The
+      # parts/scad/mesh tests all touch OCP, so a light-only install
+      # can't run the full test suite.
+      - name: Install (heavy + dev extras)
+        run: pip install -e ".[heavy,dev]"
 
       - name: Lint
         run: ruff check src tests
