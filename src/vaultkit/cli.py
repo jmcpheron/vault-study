@@ -7,7 +7,7 @@ from pathlib import Path
 
 import click
 
-from vaultkit import gears, mesh, params, parts, scad, step_io
+from vaultkit import gears, mesh, params, parts, release, scad, step_io
 from vaultkit.explainers import schematic
 
 
@@ -215,10 +215,7 @@ def explain_animate(
     kind: str, variant: str, out_gif: Path, frames: int, size: int
 ) -> None:
     """Render a 3D animation GIF via OpenSCAD."""
-    step_file = {
-        "fdm": "step-source/fdm-vault.step",
-        "faithful": "step-source/unauthorized-vault-clone.step",
-    }[variant]
+    step_file = params.VARIANTS[variant]
     out_webp = out_gif.with_suffix(".webp")
     click.echo(f"Rendering {kind} animation for {variant} → {out_gif.name}…", err=True)
     if kind == "cam-sweep":
@@ -292,13 +289,12 @@ def explain_render(
     click.echo("→ pin-travel diagram", err=True)
     schematic.pin_travel_diagram_svg(out_dir / "pin-travel-diagram.svg")
 
-    # Whole-assembly iso renders.
-    for variant, step_file in [
-        ("faithful", "step-source/unauthorized-vault-clone.step"),
-        ("fdm-vault", "step-source/fdm-vault.step"),
-    ]:
-        out_png = out_dir / f"{variant}.iso.png"
-        click.echo(f"→ {variant} iso hero ({out_png.name})", err=True)
+    # Whole-assembly iso renders. Output stems keep their historical names
+    # ("fdm-vault"); the STEP paths come from params.VARIANTS.
+    for label, variant in [("faithful", "faithful"), ("fdm-vault", "fdm")]:
+        step_file = params.VARIANTS[variant]
+        out_png = out_dir / f"{label}.iso.png"
+        click.echo(f"→ {label} iso hero ({out_png.name})", err=True)
         mesh.render_iso(
             Path(step_file), out_png, deflection_mm=0.2,
             edge_width=0.08, edge_color="#888a8c", face_color="#e1e3e6",
@@ -306,10 +302,7 @@ def explain_render(
 
     if not skip_parts:
         # Per-part PNGs for both variants.
-        for variant, step_file in [
-            ("faithful", "step-source/unauthorized-vault-clone.step"),
-            ("fdm", "step-source/fdm-vault.step"),
-        ]:
+        for variant, step_file in params.VARIANTS.items():
             parts_dir = out_dir / "parts" / variant
             parts_dir.mkdir(parents=True, exist_ok=True)
             click.echo(f"→ {variant} per-part renders → {parts_dir}/", err=True)
@@ -335,12 +328,93 @@ def explain_render(
             out_webp = out_gif.with_suffix(".webp")
             click.echo(f"→ {kind} animation → {out_gif.name}", err=True)
             render_fn(
-                Path("step-source/fdm-vault.step"),
+                Path(params.VARIANTS["fdm"]),
                 out_gif, out_webp=out_webp,
                 frames=24, size_px=600,
             )
 
     click.echo("Done.", err=True)
+
+
+# ── release ──────────────────────────────────────────────────────────────
+
+
+@main.group()
+def release_group() -> None:
+    """Build upload-ready bundles for Printables / MakerWorld."""
+
+
+main.add_command(release_group, name="release")
+
+
+@release_group.command("describe")
+@click.option(
+    "--variant",
+    type=click.Choice(["fdm", "faithful"]),
+    required=True,
+    help="Which variant to describe.",
+)
+@click.option(
+    "--platform",
+    type=click.Choice(["printables", "makerworld"]),
+    required=True,
+    help="Which platform's formatting to emit.",
+)
+def release_describe(variant: str, platform: str) -> None:
+    """Print a listing description (copy-paste into the site form)."""
+    click.echo(release.describe(variant, platform))
+
+
+@release_group.command("build")
+@click.option(
+    "--variant",
+    type=click.Choice(["fdm", "faithful", "all"]),
+    default="all",
+    show_default=True,
+    help="Which variant(s) to bundle.",
+)
+@click.option(
+    "--out-dir",
+    type=click.Path(path_type=Path),
+    default=Path("dist"),
+    show_default=True,
+    help="Root directory for the bundle(s).",
+)
+@click.option("--skip-stl", is_flag=True, help="Skip the whole-assembly STL.")
+@click.option("--skip-parts", is_flag=True, help="Skip the per-part STLs.")
+@click.option(
+    "--skip-anim", is_flag=True, help="Skip the OpenSCAD animation (FDM only)."
+)
+@click.option("--zip/--no-zip", "make_zip", default=True, show_default=True)
+@click.option(
+    "--deflection",
+    type=float,
+    default=0.3,
+    show_default=True,
+    help="Tessellation deflection in mm for the STLs/renders.",
+)
+def release_build(
+    variant: str,
+    out_dir: Path,
+    skip_stl: bool,
+    skip_parts: bool,
+    skip_anim: bool,
+    make_zip: bool,
+    deflection: float,
+) -> None:
+    """Build the full bundle(s): STLs, renders, descriptions, license, zip."""
+    targets = ["fdm", "faithful"] if variant == "all" else [variant]
+    for v in targets:
+        dest = release.build_bundle(
+            v,
+            out_dir,
+            skip_stl=skip_stl,
+            skip_parts=skip_parts,
+            skip_anim=skip_anim,
+            make_zip=make_zip,
+            deflection=deflection,
+        )
+        click.echo(f"Built {v} bundle → {dest}", err=True)
 
 
 if __name__ == "__main__":

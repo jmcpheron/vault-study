@@ -23,7 +23,7 @@ the two STEP files in
 | | Faithful (Adam-replica) | FDM (printable) |
 |---|---|---|
 | STEP file | [`unauthorized-vault-clone.step`](https://github.com/jmcpheron/vault-study/blob/main/step-source/unauthorized-vault-clone.step) | [`fdm-vault.step`](https://github.com/jmcpheron/vault-study/blob/main/step-source/fdm-vault.step) |
-| Onshape doc name | `6a0d1ba0255ad8ff85a10206` (doc-id placeholder) | `Assembly 3` |
+| Onshape doc | [open in Onshape ↗](https://cad.onshape.com/documents/eaf3e87c1faae12ad867b335/w/83a96bb8921d1af3abd7aecd/e/9db299b535aaeded5de5120c) | [open in Onshape ↗](https://cad.onshape.com/documents/017898deda56c430272a5497/w/5d7667d0936a708006b152fa/e/8e68069be3521bc23b864206) |
 | Bounding box (mm) | 171 × **50** × 171 | 171 × **31** × 171 |
 | Body shape | Chunky puck (mimics Adam's cast-iron cylinder) | Thin washer with radial cutouts |
 | Triangle count @ 0.5 mm | 50,896 | 60,428 |

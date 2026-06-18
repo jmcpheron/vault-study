@@ -110,8 +110,8 @@ project is dimensions.
 
 | Variant | Onshape | MakerWorld | Printables | STEP |
 | --- | --- | --- | --- | --- |
-| Faithful | _(placeholder)_ | n/a | n/a | [in repo](https://github.com/jmcpheron/vault-study/blob/main/step-source/unauthorized-vault-clone.step) |
-| FDM | _(placeholder)_ | n/a | n/a | [in repo](https://github.com/jmcpheron/vault-study/blob/main/step-source/fdm-vault.step) |
+| Faithful | [open in Onshape ↗](https://cad.onshape.com/documents/eaf3e87c1faae12ad867b335/w/83a96bb8921d1af3abd7aecd/e/9db299b535aaeded5de5120c) | n/a (CAD study) | n/a (CAD study) | [in repo](https://github.com/jmcpheron/vault-study/blob/main/step-source/unauthorized-vault-clone.step) |
+| FDM | [open in Onshape ↗](https://cad.onshape.com/documents/017898deda56c430272a5497/w/5d7667d0936a708006b152fa/e/8e68069be3521bc23b864206) | _(soon)_ | _(soon)_ | [in repo](https://github.com/jmcpheron/vault-study/blob/main/step-source/fdm-vault.step) |
 
 ## Credit
 

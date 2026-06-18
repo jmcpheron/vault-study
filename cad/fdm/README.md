@@ -14,9 +14,14 @@ running list of "why is the FDM one different here?" answers.
 
 ## Onshape document
 
-_(Placeholder — fill in once the document is created and shared publicly.)_
+**Public, view-only:**
+[cad.onshape.com/documents/017898de…](https://cad.onshape.com/documents/017898deda56c430272a5497/w/5d7667d0936a708006b152fa/e/8e68069be3521bc23b864206)
 
-`https://cad.onshape.com/documents/<TBD>`
+Canonical IDs + the pinned Onshape **Version** for the current STEP
+live in [`../../src/vaultkit/params.py`](../../src/vaultkit/params.py)
+under `ONSHAPE["fdm"]`. Current STEP: **live workspace export** (no
+named Version pinned yet — see
+[`../../SHAREABLE-CAD.md`](../../SHAREABLE-CAD.md) for the export loop).
 
 Early STEP export already in
 [`../../step-source/fdm-vault.step`](../../step-source/fdm-vault.step).

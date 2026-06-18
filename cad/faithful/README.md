@@ -7,15 +7,21 @@ same gear math, same combination-lock-as-gatekeeper.
 
 ## Onshape document
 
-_(Placeholder — fill in once the document is created and shared publicly.)_
+**Public, view-only:**
+[cad.onshape.com/documents/eaf3e87c…](https://cad.onshape.com/documents/eaf3e87c1faae12ad867b335/w/83a96bb8921d1af3abd7aecd/e/9db299b535aaeded5de5120c)
 
-`https://cad.onshape.com/documents/<TBD>`
+The canonical IDs (document / workspace / element) and the pinned
+Onshape **Version** for the current STEP live in
+[`../../src/vaultkit/params.py`](../../src/vaultkit/params.py) under
+`ONSHAPE["faithful"]` — the one place the tooling reads. Current STEP:
+**live workspace export** (no named Version pinned yet).
 
 The Onshape document is the **source of truth** for geometry. The
 STEP export sits at [`../../step-source/unauthorized-vault-clone.step`](../../step-source/unauthorized-vault-clone.step)
 (name kept as a wink in the inbox folder — the file represents the
 faithful replica). When the Onshape document updates, re-export STEP
-and replace that file.
+and replace that file — see [`../../SHAREABLE-CAD.md`](../../SHAREABLE-CAD.md)
+for the cut-a-Version → export → commit loop.
 
 ## Modeling conventions
 

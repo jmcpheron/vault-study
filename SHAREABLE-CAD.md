@@ -33,6 +33,29 @@ The core ideas, applied here:
    Printables that anyone can print at home without reading any of
    this.
 
+## Re-exporting from Onshape (the version loop)
+
+The git ↔ Onshape link is deliberate. When the model reaches a
+milestone worth freezing:
+
+1. **Cut a named Version in Onshape** (the version graph → *Create
+   version*, e.g. `v0.1 — first public export`). A Version is
+   immutable; a workspace keeps moving.
+2. **Export STEP from that Version** and drop it in
+   [`step-source/`](step-source/), replacing the existing file.
+3. **Bump the provenance** in
+   [`src/vaultkit/params.py`](src/vaultkit/params.py) →
+   `ONSHAPE[variant]`: set `version_id`, `version_name`, and
+   `exported_utc`. `OnshapeSource.permalink` then resolves to the
+   immutable `/v/<versionId>` URL the release descriptions link to.
+4. **Commit the STEP and the params bump together.** Now `git log` of
+   `params.py` and the Onshape version graph tell the same story:
+   which commit's files came from which Onshape Version.
+
+Until a Version is cut, `version_id` stays `None` and everything
+points at the live `/w/` workspace URL — fine for an early public
+doc, just not a frozen snapshot.
+
 The full pattern doc lives in the `pycon2026` repo. This file is a
 pointer; if `pycon2026/SHAREABLE-CAD.md` updates with new
 conventions, port them back here.

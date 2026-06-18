@@ -14,7 +14,8 @@ bank-vault door** in parametric CAD. Two variants in parallel:
   evening's worth of jobs.
 
 The repo is the workshop. The CAD source of truth lives in two
-public **Onshape** documents (links below, both still being built).
+public **Onshape** documents (linked in the Status table below; both
+still being built).
 The end-state is a 3MF bundle on **MakerWorld** and **Printables**
 that anyone can print at home without reading any of this.
 
@@ -55,8 +56,8 @@ that anyone can print at home without reading any of this.
 
 | Variant | Onshape | MakerWorld | Printables |
 | --- | --- | --- | --- |
-| Faithful | _(in progress — placeholder)_ | n/a | n/a |
-| FDM | _(in progress — placeholder)_ | n/a | n/a |
+| Faithful | [open in Onshape ↗](https://cad.onshape.com/documents/eaf3e87c1faae12ad867b335/w/83a96bb8921d1af3abd7aecd/e/9db299b535aaeded5de5120c) | n/a (CAD study) | n/a (CAD study) |
+| FDM | [open in Onshape ↗](https://cad.onshape.com/documents/017898deda56c430272a5497/w/5d7667d0936a708006b152fa/e/8e68069be3521bc23b864206) | _(soon)_ | _(soon)_ |
 
 The early STEP exports for both are already in [`step-source/`](step-source/).
 

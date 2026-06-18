@@ -15,6 +15,8 @@ in vaultkit.units (TODO — not yet written; for now do the math at the
 call site and comment it).
 """
 
+from dataclasses import dataclass
+
 # ── Global gear math ─────────────────────────────────────────────────────
 MODULE_MM = 0.5
 SCALE = 1 / 12  # 1/12-scale relative to a real vault door
@@ -75,3 +77,90 @@ COMBO_WHEEL_DIAMETER_IN = 0.450
 COMBO_DIAL_SPINDLE_IN = 1 / 8
 COMBO_DIAL_DIVISIONS = 36
 COMBO_DIAL_DIVISION_DEG = 10  # = 360 / 36
+
+
+# ── Onshape source provenance (the git ↔ Onshape version link) ───────────
+# The dimension constants above are deliberately flat. This section is
+# different: it's structured metadata *about the source documents*, not a
+# dimension, so a small dataclass earns its keep. `release` (and, later,
+# `capture`) import ONSHAPE so the doc URLs live in exactly one place.
+
+
+@dataclass(frozen=True)
+class OnshapeSource:
+    """Where a variant's geometry comes from, and which snapshot it is.
+
+    The `/w/` workspace URL is mutable — it tracks the live document. When a
+    milestone is reached, cut a named *Version* in Onshape and record its
+    immutable id here; that, committed alongside the re-exported STEP, is what
+    ties a git commit to a specific Onshape version. Until then `version_id`
+    is None and `permalink` falls back to the live workspace URL.
+    """
+
+    doc_url: str  # public /w/ workspace URL — what a reader clicks
+    document_id: str
+    workspace_id: str
+    element_id: str
+    step: str  # repo-relative path to the exported STEP
+    version_id: str | None = None  # set once a named Version is cut in Onshape
+    version_name: str | None = None  # e.g. "v0.1 — first public export"
+    exported_utc: str | None = None  # ISO date the current STEP was exported
+
+    @property
+    def permalink(self) -> str:
+        """Immutable /v/ URL when a Version is pinned, else the live /w/ URL."""
+        if self.version_id:
+            return (
+                f"https://cad.onshape.com/documents/{self.document_id}"
+                f"/v/{self.version_id}/e/{self.element_id}"
+            )
+        return self.doc_url
+
+
+ONSHAPE = {
+    "fdm": OnshapeSource(
+        doc_url=(
+            "https://cad.onshape.com/documents/017898deda56c430272a5497"
+            "/w/5d7667d0936a708006b152fa/e/8e68069be3521bc23b864206"
+        ),
+        document_id="017898deda56c430272a5497",
+        workspace_id="5d7667d0936a708006b152fa",
+        element_id="8e68069be3521bc23b864206",
+        step="step-source/fdm-vault.step",
+    ),
+    "faithful": OnshapeSource(
+        doc_url=(
+            "https://cad.onshape.com/documents/eaf3e87c1faae12ad867b335"
+            "/w/83a96bb8921d1af3abd7aecd/e/9db299b535aaeded5de5120c"
+        ),
+        document_id="eaf3e87c1faae12ad867b335",
+        workspace_id="83a96bb8921d1af3abd7aecd",
+        element_id="9db299b535aaeded5de5120c",
+        step="step-source/unauthorized-vault-clone.step",
+    ),
+}
+
+# Variant → STEP path. The one map the CLI loops, the release bundler, and the
+# capture tooling all read. Derived from ONSHAPE so it can never drift from it.
+VARIANTS = {key: src.step for key, src in ONSHAPE.items()}
+
+
+# ── Public release framing (Printables / MakerWorld listings) ────────────
+# Titles credit Adam and frame this as a study, on purpose. Edit the wording
+# here; the release descriptions and listing sheets all read from it.
+RELEASE_TITLES = {
+    "fdm": "Vault Study — FDM: Adam Savage's vault door, retooled for a flatbed printer",
+    "faithful": "Vault Study — Faithful: Adam Savage's 1/12 vault door, in CAD",
+}
+
+# Recommended print settings for the FDM listing — grounded in cad/fdm/README.md.
+# Only the FDM variant is print-targeted; the faithful variant is a CAD reference.
+PRINT_SETTINGS = {
+    "fdm": {
+        "layer_height_mm": 0.2,
+        "wall_loops": 4,  # perimeters on the geared parts
+        "supports": "none",
+        "material_mechanism": "PETG",
+        "material_cosmetic": "PLA",
+    },
+}
