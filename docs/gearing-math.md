@@ -5,7 +5,7 @@ title: The gearing math
 # The gearing math
 
 <p style="text-align:center; margin: 1em 0;">
-  <img src="assets/generated/gear-mesh.animated.svg"
+  <img src="{{ '/assets/generated/gear-mesh.animated.svg' | relative_url }}"
        alt="A 120-tooth internal ring gear meshes with a 24-tooth spur gear. The spur counter-rotates at five times the ring's angular speed."
        width="400"
        style="max-width:100%; height:auto;">
@@ -121,5 +121,5 @@ without a degree in mechanical engineering.
   — the canonical numbers, source-tagged to the videos they came from.
 - [`src/vaultkit/gears.py`](https://github.com/jmcpheron/vault-study/blob/main/src/vaultkit/gears.py)
   — the math, in 60 lines of pure Python.
-- [Why twelve pins?](why-twelve-pins.html) — the divisor argument
+- [Why twelve pins?]({{ '/why-twelve-pins/' | relative_url }}) — the divisor argument
   pushed further.

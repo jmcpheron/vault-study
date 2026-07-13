@@ -51,7 +51,7 @@ from pathlib import Path
 
 import drawsvg as draw
 
-from vaultkit import gears, params
+from vaultkit import gears, params, play
 
 
 @dataclass(frozen=True)
@@ -1160,6 +1160,188 @@ def pin_travel_diagram_svg(
         font_family=style.annotation_font,
         fill=style.highlight_color,
         text_anchor="middle",
+    ))
+
+    d.append(ann)
+    _save_svg(d, out)
+
+
+def pin_play_diagram_svg(
+    out: Path,
+    *,
+    variant: str = "fdm",
+    exaggeration: float = 10.0,
+    style: SchematicStyle | None = None,
+) -> None:
+    """One extended pin with its bore clearances drawn `exaggeration`×.
+
+    Cross-section through a single locking pin bridging the door bore and
+    the frame receiver. The pin rests on the bottom of both bores, so the
+    whole diametral clearance shows as a gap above it. Clearances at true
+    scale would be invisible (0.2 mm radial at 4 px/mm is under a pixel),
+    so they are exaggerated and the drawing says so.
+
+    Every number in the callouts comes from params.py via vaultkit.play.
+    """
+    style = style or SchematicStyle()
+    fit = play.FITS[variant]
+    su = play.stackup(variant)
+    px = style.px_per_mm
+
+    pin_d = fit.pin_diameter_mm
+    # Drawn (exaggerated) clearances.
+    radial_ex = fit.radial_clearance_mm * exaggeration
+    gap_ex = su.frame_gap_mm * exaggeration
+    bore_d_ex = pin_d + fit.diametral_clearance_mm * exaggeration
+
+    # Layout (CAD frame, mm). Bore axis on y=0; the pin drops by the
+    # exaggerated radial clearance so the gap collects on top.
+    door_x0, door_x1 = 0.0, 22.0
+    frame_x0 = door_x1 + gap_ex
+    frame_x1 = frame_x0 + 16.0
+    wall_t = 7.0  # drawn thickness of the door/frame material
+    # The pin stops short of the receiver's far side, leaving a stretch
+    # of open bore where the bore-diameter dimension can live legibly.
+    pin_x0, pin_x1 = 3.0, frame_x0 + 6.0
+    pin_cy = -radial_ex  # pin center, resting on the bore bottom
+
+    view_x_min, view_x_max = -9.0, frame_x1 + 12.0
+    view_y_min = -(bore_d_ex / 2 + wall_t + 8.0)
+    view_y_max = bore_d_ex / 2 + wall_t + 12.0
+    width_mm = view_x_max - view_x_min
+    height_mm = view_y_max - view_y_min
+
+    d = draw.Drawing(
+        width_mm * px, height_mm * px,
+        origin=(view_x_min * px, -view_y_max * px),
+    )
+    _a11y(
+        d,
+        "Pin play diagram",
+        f"Cross-section of one locking pin (Ø{pin_d:g} mm) extended through "
+        f"the door bore (Ø{fit.bore_diameter_mm:g} mm) into the frame "
+        f"receiver, with clearances exaggerated {exaggeration:g}× for "
+        f"visibility. Radial clearance {fit.radial_clearance_mm:g} mm; "
+        f"door-frame gap {su.frame_gap_mm:.3f} mm; maximum tilt "
+        f"{su.tilt_extended_deg:.2f} degrees when extended.",
+    )
+    d.append_css(_reduced_motion_css())
+    _add_arrow_marker(d, marker_id="vk-arrow", color=style.dimension_color)
+    _add_arrow_marker(d, marker_id="vk-arrow-hl", color=style.highlight_color)
+
+    root = draw.Group(transform=f"scale({px} {-px})")
+
+    # Door and frame walls — two slabs each, above and below the bore.
+    for x0, x1 in [(door_x0, door_x1), (frame_x0, frame_x1)]:
+        for y0 in (bore_d_ex / 2, -bore_d_ex / 2 - wall_t):
+            root.append(draw.Rectangle(
+                x0, y0, x1 - x0, wall_t,
+                fill="#eeeae0",
+                stroke=style.construction_color,
+                stroke_width=style.stroke_w_mm,
+            ))
+
+    # Bore centerline (construction).
+    root.append(draw.Line(
+        view_x_min + 2, 0, view_x_max - 2, 0,
+        stroke=style.center_mark_color,
+        stroke_width=style.stroke_w_mm * 0.5,
+        stroke_dasharray="3,1.5",
+    ))
+
+    # The pin, resting on the bottom of both bores.
+    root.append(draw.Rectangle(
+        pin_x0, pin_cy - pin_d / 2, pin_x1 - pin_x0, pin_d,
+        fill=style.pin_fill,
+        stroke=style.pin_fill,
+        stroke_width=style.stroke_w_mm,
+    ))
+
+    d.append(root)
+
+    # ── Annotations ────────────────────────────────────────────────────
+    # Layout: labels live in the empty bands above and below the walls,
+    # never on the dark pin. Top band: door body / door-frame gap /
+    # max tilt. Bottom band: pin diameter / frame receiver / disclaimer.
+    ann = draw.Group(id="annotations")
+
+    # Pin diameter — leader to the pin's bottom edge, text below-left.
+    _leader_arrow(
+        ann,
+        target_mm=(pin_x0 + 2.0, pin_cy - pin_d / 2),
+        text_pos_mm=(view_x_min + 1.0, -bore_d_ex / 2 - wall_t - 4.0),
+        label=f"Ø{pin_d:g} pin",
+        px_per_mm=px, style=style,
+    )
+
+    # Bore diameter — vertical dimension across the open bore section
+    # past the pin's end (receiver bore, same fit as the door bore).
+    _dimension_line(
+        ann,
+        p1_mm=(frame_x1 - 1.8, -bore_d_ex / 2),
+        p2_mm=(frame_x1 - 1.8, bore_d_ex / 2),
+        label=f"Ø{fit.bore_diameter_mm:g} bore",
+        offset_mm=0, px_per_mm=px, style=style,
+    )
+
+    # Radial clearance — the gap above the pin, highlighted.
+    clear_x = (door_x0 + door_x1) / 2
+    _dimension_line(
+        ann,
+        p1_mm=(clear_x, pin_cy + pin_d / 2),
+        p2_mm=(clear_x, bore_d_ex / 2),
+        label=f"{fit.radial_clearance_mm:g} mm radial clearance",
+        offset_mm=0, px_per_mm=px, style=style,
+        color=style.highlight_color,
+        arrow_marker_id="vk-arrow-hl",
+    )
+
+    # Door-frame gap — horizontal dimension between the two walls.
+    _dimension_line(
+        ann,
+        p1_mm=(door_x1, bore_d_ex / 2 + wall_t * 0.6),
+        p2_mm=(frame_x0, bore_d_ex / 2 + wall_t * 0.6),
+        label=f"{su.frame_gap_mm:.3f} mm door-frame gap",
+        offset_mm=wall_t * 0.8, px_per_mm=px, style=style,
+    )
+
+    # Max-tilt callout — leader to the pin's top edge, text anchored to
+    # the right edge so it can't clip.
+    _leader_arrow(
+        ann,
+        target_mm=(pin_x1 - 2.0, pin_cy + pin_d / 2),
+        text_pos_mm=(view_x_max - 1.5, bore_d_ex / 2 + wall_t + 9.0),
+        label=f"max tilt {su.tilt_extended_deg:.2f}° extended",
+        px_per_mm=px, style=style,
+        color=style.highlight_color,
+        arrow_marker_id="vk-arrow-hl",
+        text_anchor="end",
+    )
+
+    # Part labels.
+    _leader_arrow(
+        ann,
+        target_mm=(door_x0 + 4.0, bore_d_ex / 2 + wall_t / 2),
+        text_pos_mm=(view_x_min + 1.0, bore_d_ex / 2 + wall_t + 4.0),
+        label="door body",
+        px_per_mm=px, style=style,
+    )
+    _leader_arrow(
+        ann,
+        target_mm=(frame_x0 + 4.0, -bore_d_ex / 2 - wall_t / 2),
+        text_pos_mm=(frame_x0 - 1.0, -bore_d_ex / 2 - wall_t - 4.0),
+        label="frame receiver",
+        px_per_mm=px, style=style,
+    )
+
+    # Exaggeration disclaimer — bottom-left corner, always present.
+    ann.append(draw.Text(
+        f"clearances exaggerated {exaggeration:g}× for visibility",
+        x=(view_x_min + 1.0) * px, y=-(view_y_min + 1.5) * px,
+        font_size=style.annotation_size_px,
+        font_family=style.annotation_font,
+        fill=style.center_mark_color,
+        text_anchor="start",
     ))
 
     d.append(ann)

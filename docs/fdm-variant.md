@@ -17,6 +17,6 @@ This page is the human-facing explanation of *why*.
 
 ## See also
 
-- [Pin travel](pin-travel.html) — the kinematic math, identical for
+- [Pin travel]({{ '/pin-travel/' | relative_url }}) — the kinematic math, identical for
   both variants (module, tooth counts, and ratio are preserved).
-- [Faithful vs FDM](faithful-vs-fdm.html) — STEP-level differences.
+- [Faithful vs FDM]({{ '/faithful-vs-fdm/' | relative_url }}) — STEP-level differences.

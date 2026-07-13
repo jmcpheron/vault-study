@@ -9,4 +9,4 @@ real vault uses 24, why halving works at 1/12 scale, and how base-12
 elegance shows up in the dividing-plate fixture Adam already owns.)_
 
 For the divisor rule itself, see
-[the gearing math page](gearing-math.html#timing-120--12--10).
+[the gearing math page]({{ '/gearing-math/' | relative_url }}#timing-120--12--10).

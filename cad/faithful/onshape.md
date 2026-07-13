@@ -3,9 +3,9 @@
 CAD-tool-specific guidance for the faithful build. [`../../specs.md`](../../specs.md)
 is for *what* to model; this file is for *how* to model it in Onshape.
 
-Absorbed and expanded from `vault-notes-from-youtube/onshape-notes.md`
-plus the per-video "Tips for Modeling this in Onshape" sections in
-parts 1–5.
+Absorbed and expanded from the original YouTube scratch notes
+(since removed) and their per-video "Tips for Modeling this in
+Onshape" sections.
 
 ## Variables at the top of the Part Studio
 
@@ -44,11 +44,23 @@ of the math once module and tooth count are right; verify against
 3. For the locking pins, **Slider Mate** the pin radially through
    the hub, then **Rack and Pinion Relation** between the spur's
    Revolute Mate and the pin's Slider Mate. Drive the ring gear
-   and watch the pin extend.
+   and watch the pin extend. Check the **Limits** box on the Slider
+   Mate and set the maximum travel to the length of the rack's
+   toothed section — the pin then hits a hard stop when it runs out
+   of teeth, just like the real one.
 4. **Circular Assembly Pattern** the perfectly-mated single
    spur+pin assembly 12 times around 360° at 30° intervals. This
    is the CAD answer to Adam's "all 12 racks must be machined
    identically" problem — Onshape mathematically guarantees it.
+
+## The rack relief cut (Boolean Subtract)
+
+The backs of the 8 mm square racks sit so close to the ring gear
+that Adam scoops a curved relief into each one. Don't guess the
+curve: place the racks in the assembly around the ring gear, then
+in the Part Studio use a **Boolean** feature set to **Subtract**
+with a cylinder slightly larger than the ring gear as the tool.
+Onshape carves the exact clearance curve for free.
 
 ## Sub-assemblies (recommended)
 

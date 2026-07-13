@@ -7,7 +7,7 @@ from pathlib import Path
 from vaultkit.parts import iter_named_shapes, slugify
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-FAITHFUL_STEP = REPO_ROOT / "step-source" / "unauthorized-vault-clone.step"
+FAITHFUL_STEP = REPO_ROOT / "step-source" / "faithful-vault.step"
 FDM_STEP = REPO_ROOT / "step-source" / "fdm-vault.step"
 
 

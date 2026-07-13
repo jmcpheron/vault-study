@@ -23,7 +23,7 @@ project actually is at any given moment; parameters don't.
 A slider that drives twelve gears teaches the mechanism in three
 seconds. Three paragraphs about gear ratios teach it in three
 minutes — and only to readers who finish them. So our hero is
-[the interactive demo](interactive.html), not the prose. The prose
+[the interactive demo]({{ '/interactive/' | relative_url }}), not the prose. The prose
 is for after you've grabbed the slider.
 
 ## Two variants, one mechanism
@@ -33,14 +33,14 @@ the same 120-tooth ring, twelve 24-tooth spurs, twelve pins, and a
 combination-lock-as-gatekeeper. They differ in everything else —
 cast iron vs PETG, side-bored cylinders vs hex-stock anti-rotation,
 0.020-inch machined fits vs slicer-tested clearances. The
-[mechanism stays the same](mechanics.html); the
-[manufacturing language](faithful-vs-fdm.html) changes.
+[mechanism stays the same]({{ '/mechanics/' | relative_url }}); the
+[manufacturing language]({{ '/faithful-vs-fdm/' | relative_url }}) changes.
 
 ## The discrepancies are the lessons
 
 When the gear math derives a 24 mm spur radius and Adam measured a
 36 mm one, we don't pick a side and quietly delete the other. The
-[interactive page](interactive.html) has a checkbox that flips
+[interactive page]({{ '/interactive/' | relative_url }}) has a checkbox that flips
 between them, and the math behind both gets its own page. The
 disagreement is more interesting than either resolution. We learn
 the most from the things that don't quite line up.

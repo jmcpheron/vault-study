@@ -39,6 +39,13 @@ PIN_COUNT = 12
 PIN_DIAMETER_MM = 10  # revised in part-4 (was 12 mm — see specs.md)
 PIN_LENGTH_MM = 30
 
+# ── Pin fit / play ───────────────────────────────────────────────────────
+# The faithful bore is a machined slip fit (clearance modeled as zero).
+# The FDM bore is the planned deviation from cad/fdm/deviations.md —
+# TBD until tuned on an actual print.
+FDM_PIN_BORE_MM = 10.4
+RACK_STUD_CONCENTRICITY_IN = 0.0125  # part-4: stud offset that made pins bind
+
 # ── Racks ────────────────────────────────────────────────────────────────
 RACK_STOCK_MM = 8  # square stock, 8 mm × 8 mm
 RACK_THREAD_DIAMETER_MM = 6  # M6 stud at the end
@@ -136,7 +143,7 @@ ONSHAPE = {
         document_id="eaf3e87c1faae12ad867b335",
         workspace_id="83a96bb8921d1af3abd7aecd",
         element_id="9db299b535aaeded5de5120c",
-        step="step-source/unauthorized-vault-clone.step",
+        step="step-source/faithful-vault.step",
     ),
 }
 

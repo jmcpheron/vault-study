@@ -113,12 +113,27 @@ def test_pin_travel_diagram_shows_both_states(tmp_path: Path) -> None:
     assert "frame receiver" in text
 
 
+def test_pin_play_diagram_contains_computed_callouts(tmp_path: Path) -> None:
+    out = tmp_path / "pinplay.svg"
+    schematic.pin_play_diagram_svg(out)
+    text = out.read_text()
+    assert f"Ø{schematic.params.PIN_DIAMETER_MM} pin" in text
+    assert f"Ø{schematic.params.FDM_PIN_BORE_MM} bore" in text
+    assert "0.2 mm radial clearance" in text
+    assert "0.508 mm door-frame gap" in text
+    assert "max tilt" in text
+    assert "exaggerated" in text
+    assert "door body" in text
+    assert "frame receiver" in text
+
+
 def test_new_technical_svgs_reproducible(tmp_path: Path) -> None:
     """Each new generator should produce byte-identical output across runs."""
     for name, generator in [
         ("topview", schematic.technical_top_view_svg),
         ("closeup", schematic.rack_pinion_closeup_svg),
         ("pintravel", schematic.pin_travel_diagram_svg),
+        ("pinplay", schematic.pin_play_diagram_svg),
     ]:
         out1 = tmp_path / f"{name}-1.svg"
         out2 = tmp_path / f"{name}-2.svg"

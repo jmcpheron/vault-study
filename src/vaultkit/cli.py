@@ -7,7 +7,7 @@ from pathlib import Path
 
 import click
 
-from vaultkit import gears, mesh, params, parts, release, scad, step_io
+from vaultkit import gears, mesh, params, parts, play, release, scad, step_io
 from vaultkit.explainers import schematic
 
 
@@ -49,6 +49,66 @@ def gears_info() -> None:
     click.echo(f"Measured BCD (specs.md):   {params.SPUR_BCD_MM} mm")
     click.echo(f"  → 2 × center distance =  {2 * center_distance} mm (should match BCD)")
     click.echo(f"Teeth between satellites:  {teeth_between}")
+
+
+# ── play ─────────────────────────────────────────────────────────────────
+
+
+@main.command("play")
+@click.option(
+    "--throw",
+    "throw_deg",
+    type=float,
+    default=play.DEFAULT_THROW_DEG,
+    show_default=True,
+    help="Ring-gear throw in degrees for the extended-pin rows.",
+)
+def play_info(throw_deg: float) -> None:
+    """Print the pin-play tolerance stack-up, faithful vs FDM."""
+    faithful = play.stackup("faithful", throw_deg=throw_deg)
+    fdm = play.stackup("fdm", throw_deg=throw_deg)
+    guided_ext = params.PIN_LENGTH_MM - fdm.extension_mm
+
+    click.echo(
+        f"Pin-play stack-up at a {throw_deg:g}° ring throw "
+        f"(extension {fdm.extension_mm:.2f} mm)"
+    )
+    click.echo("")
+    header = f"{'':38}{'faithful':>12}{'FDM':>12}"
+    click.echo(header)
+    rows = [
+        ("Bore diameter (mm)",
+         f"{faithful.fit.bore_diameter_mm:.3f}", f"{fdm.fit.bore_diameter_mm:.3f}"),
+        ("Diametral clearance (mm)",
+         f"{faithful.fit.diametral_clearance_mm:.3f}",
+         f"{fdm.fit.diametral_clearance_mm:.3f}"),
+        ("Radial clearance (mm)",
+         f"{faithful.fit.radial_clearance_mm:.3f}",
+         f"{fdm.fit.radial_clearance_mm:.3f}"),
+        (f"Tilt at rest, {params.PIN_LENGTH_MM} mm guided (deg)",
+         f"{faithful.tilt_at_rest_deg:.3f}", f"{fdm.tilt_at_rest_deg:.3f}"),
+        (f"Tilt extended, {guided_ext:.1f} mm guided (deg)",
+         f"{faithful.tilt_extended_deg:.3f}", f"{fdm.tilt_extended_deg:.3f}"),
+        ("Lateral play at pin tip (mm)",
+         f"{faithful.lateral_play_at_tip_mm:.3f}",
+         f"{fdm.lateral_play_at_tip_mm:.3f}"),
+        ("Locked-door play (mm)",
+         f"{faithful.locked_door_play_mm:.3f}", f"{fdm.locked_door_play_mm:.3f}"),
+        ("Door-frame gap (mm)",
+         f"{faithful.frame_gap_mm:.3f}", f"{fdm.frame_gap_mm:.3f}"),
+    ]
+    for label, a, b in rows:
+        click.echo(f"{label:38}{a:>12}{b:>12}")
+    click.echo("")
+    click.echo("Faithful bore is a machined slip fit; modeled as zero clearance.")
+    click.echo(
+        f"FDM bore is the planned {params.FDM_PIN_BORE_MM} mm from "
+        f"cad/fdm/deviations.md — TBD until print-tuned."
+    )
+    click.echo(
+        "Gear backlash is unquantified; it adds a 1:1 travel dead-band "
+        "(see vaultkit.play.travel_deadband_mm)."
+    )
 
 
 # ── step (stub) ──────────────────────────────────────────────────────────
@@ -167,7 +227,7 @@ def explain() -> None:
 @explain.command("schematic")
 @click.option(
     "--kind",
-    type=click.Choice(["mesh", "mechanism"]),
+    type=click.Choice(["mesh", "mechanism", "pin-play"]),
     required=True,
     help="Which schematic to generate.",
 )
@@ -183,6 +243,8 @@ def explain_schematic(kind: str, animated: bool, out_svg: Path) -> None:
     """Generate a single SVG schematic."""
     if kind == "mesh":
         schematic.gear_mesh_svg(out_svg, animated=animated)
+    elif kind == "pin-play":
+        schematic.pin_play_diagram_svg(out_svg)
     else:
         schematic.full_mechanism_svg(out_svg, animated=animated)
     click.echo(f"Wrote {out_svg}", err=True)
@@ -288,6 +350,9 @@ def explain_render(
 
     click.echo("→ pin-travel diagram", err=True)
     schematic.pin_travel_diagram_svg(out_dir / "pin-travel-diagram.svg")
+
+    click.echo("→ pin-play diagram", err=True)
+    schematic.pin_play_diagram_svg(out_dir / "pin-play-diagram.svg")
 
     # Whole-assembly iso renders. Output stems keep their historical names
     # ("fdm-vault"); the STEP paths come from params.VARIANTS.

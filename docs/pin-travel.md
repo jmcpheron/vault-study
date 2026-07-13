@@ -5,11 +5,11 @@ title: Pin travel — how far do they go?
 # Pin travel — how far do they go?
 
 Turn the lever 15°. How far does each pin extend? Eyeballing the
-[cam-sweep animation](index.html), it's a few millimetres — but how
+[cam-sweep animation]({{ '/' | relative_url }}), it's a few millimetres — but how
 few, and why? This page walks the math.
 
 <p style="text-align:center; margin: 1.5em 0;">
-  <img src="assets/generated/technical-top-view.svg"
+  <img src="{{ '/assets/generated/technical-top-view.svg' | relative_url }}"
        alt="Top-down technical drawing of the vault mechanism showing the ring gear pitch diameter (Ø60), spur bolt-circle diameter (Ø72), pin diameter (Ø10), tooth counts (120 ring teeth, 24 spur teeth × 12 spurs), 30° spur spacing, and module 0.5."
        width="640" style="max-width:100%; height:auto;">
 </p>
@@ -165,7 +165,7 @@ the geometry: that's ~65% of available stroke, well within the
 mechanism's design range.
 
 <p style="text-align:center; margin: 1.5em 0;">
-  <img src="assets/generated/pin-travel-diagram.svg"
+  <img src="{{ '/assets/generated/pin-travel-diagram.svg' | relative_url }}"
        alt="A single locking pin shown in two positions: at rest (light grey) inside the door body bore, and after a 15° lever throw (dark) extended into the frame receiver. The travel between the two positions is 7.85 mm."
        width="640" style="max-width:100%; height:auto;">
 </p>
@@ -184,14 +184,14 @@ It's the same. The kinematic identities are **gear-math invariants**
 The FDM redesign swaps cylinders for hex stock and adjusts
 tolerances for printer realities, but it preserves the gears. So
 every number on this page applies identically to the FDM build. See
-[the FDM design considerations](fdm-variant.html) for what *does*
+[the FDM design considerations]({{ '/fdm-variant/' | relative_url }}) for what *does*
 change.
 
 ## See also
 
-- [The gearing math](gearing-math.html) — where the 5:1 ratio comes
+- [The gearing math]({{ '/gearing-math/' | relative_url }}) — where the 5:1 ratio comes
   from and why module matters more than diameter.
-- [Interactive mechanism](interactive.html) — the full assembly,
+- [Interactive mechanism]({{ '/interactive/' | relative_url }}) — the full assembly,
   driven by a slider. This page is the math behind that demo.
-- [Mechanics overview](mechanics.html) — the whole power chain from
+- [Mechanics overview]({{ '/mechanics/' | relative_url }}) — the whole power chain from
   dial to pins.

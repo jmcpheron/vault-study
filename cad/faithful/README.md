@@ -17,9 +17,8 @@ Onshape **Version** for the current STEP live in
 **live workspace export** (no named Version pinned yet).
 
 The Onshape document is the **source of truth** for geometry. The
-STEP export sits at [`../../step-source/unauthorized-vault-clone.step`](../../step-source/unauthorized-vault-clone.step)
-(name kept as a wink in the inbox folder — the file represents the
-faithful replica). When the Onshape document updates, re-export STEP
+STEP export sits at [`../../step-source/faithful-vault.step`](../../step-source/faithful-vault.step).
+When the Onshape document updates, re-export STEP
 and replace that file — see [`../../SHAREABLE-CAD.md`](../../SHAREABLE-CAD.md)
 for the cut-a-Version → export → commit loop.
 

@@ -55,13 +55,13 @@ outward through the door body's pin bores into the frame.
 
 {% include mechanism-interactive.svg %}
 
-<script src="assets/interactive.js" defer></script>
+<script src="{{ '/assets/interactive.js' | relative_url }}" defer></script>
 
 ## What the controls do
 
 - **Ring rotation slider** — between −15° and +15° of ring rotation.
   Each spur counter-rotates by 5× that amount (the 5 : 1 ratio
-  derived in [the gearing math page](gearing-math.html)). Each rack
+  derived in [the gearing math page]({{ '/gearing-math/' | relative_url }})). Each rack
   translates radially outward by `θ × r_pitch` mm, where `r_pitch` is
   the spur's pitch radius (6 mm for our 24-tooth, module-0.5 spurs).
 - **Pin extension** — the live readout shows the linear distance each
@@ -72,7 +72,7 @@ outward through the door body's pin bores into the frame.
   actually mesh) to Adam's video-measured 72 mm bolt-circle (36 mm
   radius). At the measured BCD, the spurs are noticeably outside the
   ring's pitch circle — the discrepancy is real, and discussed in
-  [the mechanics overview](mechanics.html#the-12-spur-crowding-question)
+  [the mechanics overview]({{ '/mechanics/' | relative_url }}#the-12-spur-crowding-question)
   and [`specs.md`](https://github.com/jmcpheron/vault-study/blob/main/specs.md#derived-values).
 
 ## How this page is built
