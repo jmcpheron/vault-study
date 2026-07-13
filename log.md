@@ -10,6 +10,18 @@ stays the terse workshop record.
 
 ---
 
+## 2026-07-13 — Refocus: the site is now a build blog
+
+Re-weighted the repo around what it was always about: the Onshape
+model first (open it, drag it), the FDM conversion second, the
+tooling demoted to a supporting role. The Pages front page is now a
+chronological build blog seeded with five posts — kickoff, the
+pin-travel math, the 12 mm → 10 mm pin story, the exploded views,
+and a new pin-play tolerance stack-up backed by `vaultkit play` and
+a generated diagram. Removed the `vault-notes-from-youtube/` scratch
+as promised, and fixed every inter-page link the pretty-permalink
+setup had silently broken.
+
 ## 2026-05-19 — Repo bootstrap
 
 Scaffolded the repo following the Shareable CAD pattern, flattened
