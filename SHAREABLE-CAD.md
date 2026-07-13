@@ -1,5 +1,10 @@
 # Shareable CAD — pattern reference
 
+This is the supporting pattern doc for the tooling. The project's
+front door is the Onshape model and the
+[build blog](https://jmcpheron.github.io/vault-study/); this file
+explains the pipeline that keeps them honest.
+
 This repository follows the **Shareable CAD** pipeline pattern:
 
 ```

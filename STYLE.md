@@ -55,6 +55,13 @@ One animated element per viewport on a Pages page. The split:
 If a page wants both, pick one for above-the-fold and put the other
 below an `## H2`.
 
+Blog posts follow the same rule — one animated element per
+viewport. Two more post conventions: excerpts on the front-page
+stream are text-only (declare `excerpt:` in the front matter; the
+default excerpt grabs the post's H1), and every asset or page link
+inside a post goes through `relative_url` — posts nest four levels
+deep under pretty permalinks, so bare `assets/…` links are bugs.
+
 ## Variant-name conventions
 
 - **Faithful** — the CAD reinterpretation of Adam's machined design.
