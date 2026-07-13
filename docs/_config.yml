@@ -1,10 +1,29 @@
 title: Vault Study
-description: A hobby CAD study of Adam Savage's 1/12-scale bank-vault door — faithful and FDM-friendly variants.
+description: A visual development blog — modeling Adam Savage's 1/12-scale bank-vault door in Onshape, plus an FDM-printable conversion.
 theme: jekyll-theme-cayman
 markdown: kramdown
 
 # So [[file.md]]-style relative links render cleanly on github.io
 permalink: pretty
+
+# Explicit url/baseurl so `relative_url` resolves the same on GitHub
+# Actions and in a local `jekyll build`. Posts nest several levels deep
+# under pretty permalinks, so post-internal links MUST use relative_url.
+url: "https://jmcpheron.github.io"
+baseurl: "/vault-study"
+
+# jekyll-feed is on the github-pages whitelist → free RSS at /feed.xml
+plugins:
+  - jekyll-feed
+
+# Cayman ships only a `default` layout. Apply it to every page and
+# post explicitly — production's jekyll-default-layout plugin would do
+# this implicitly, but explicit config keeps local builds identical.
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
 
 # Don't publish the README pulled from repo root (we have our own index.md)
 exclude:

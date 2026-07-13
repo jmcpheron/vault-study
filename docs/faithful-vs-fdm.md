@@ -47,7 +47,7 @@ is what tells us the story:
 
 ### Faithful
 
-![Faithful variant, isometric render](assets/generated/faithful-iso.png)
+![Faithful variant, isometric render]({{ '/assets/generated/faithful-iso.png' | relative_url }})
 
 The faithful (in-progress) Onshape redesign of Adam's lathe-made
 vault. Notable features visible from the iso view:
@@ -69,7 +69,7 @@ holes, and the two gear products in the assembly.
 
 ### FDM
 
-![FDM variant, isometric render](assets/generated/fdm-vault-iso.png)
+![FDM variant, isometric render]({{ '/assets/generated/fdm-vault-iso.png' | relative_url }})
 
 The FDM-printer-friendly variant. The geometry decisions read
 loudly:
@@ -168,4 +168,4 @@ vaultkit step render step-source/unauthorized-vault-clone.step \
 
 - [`cad/faithful/`](https://github.com/jmcpheron/vault-study/tree/main/cad/faithful) — faithful-variant docs, Onshape conventions.
 - [`cad/fdm/deviations.md`](https://github.com/jmcpheron/vault-study/blob/main/cad/fdm/deviations.md) — the canonical FDM-deviation log.
-- [Gearing math](gearing-math.html) — what the shared mechanism actually computes to.
+- [Gearing math]({{ '/gearing-math/' | relative_url }}) — what the shared mechanism actually computes to.
