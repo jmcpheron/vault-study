@@ -57,7 +57,7 @@ vault. Notable features visible from the iso view:
   they would on the real vault.
 - **Solid puck profile** — the body is one chunky cylinder, not
   yet hollowed out for the gear mechanism. The internal cavity
-  Adam mentions in [part-3](https://github.com/jmcpheron/vault-study/blob/main/vault-notes-from-youtube/part-3.md)
+  Adam mentions in part-3 (see [`specs.md`](https://github.com/jmcpheron/vault-study/blob/main/specs.md#heavy-door-puck-cast-iron-outer))
   (0.5" solid front face, hollow middle, 0.75" closure depth)
   isn't modeled yet.
 - **No tapers, fillets, or ellipses** in the STEP entity histogram —

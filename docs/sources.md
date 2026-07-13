@@ -24,11 +24,10 @@ _(Direct URLs for parts 2–5 — to be added.)_
 ## How sources cascade into the repo
 
 ```
-Adam's video        →  vault-notes-from-youtube/part-N.md  (raw distillation)
-   distilled        →  specs.md                            (canonical, source-tagged)
-   mirrored         →  src/vaultkit/params.py              (code-readable)
-   tested           →  tests/test_no_drift.py              (drift check)
-   explained        →  docs/*.md                           (this site)
+Adam's video        →  specs.md                 (canonical, source-tagged)
+   mirrored         →  src/vaultkit/params.py   (code-readable)
+   tested           →  tests/test_no_drift.py   (drift check)
+   explained        →  docs/*.md                (this site + the blog posts)
 ```
 
 Every number on every page should trace back through that chain to

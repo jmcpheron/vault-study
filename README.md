@@ -50,7 +50,6 @@ that anyone can print at home without reading any of this.
 | [`step-source/`](step-source/) | Raw STEP exports from Onshape. The inbox; the kernel reads from here. |
 | [`docs/`](docs/) | GitHub Pages explainer site (Jekyll). Mechanics, gearing math, FDM design choices. |
 | [`log.md`](log.md) | Build journal. Reverse-chronological. |
-| [`vault-notes-from-youtube/`](vault-notes-from-youtube/) | **Will be removed** in a follow-up commit once the absorption into `specs.md` is verified. |
 
 ## Status (live links)
 
