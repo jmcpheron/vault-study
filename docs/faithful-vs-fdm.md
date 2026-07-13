@@ -22,7 +22,7 @@ the two STEP files in
 
 | | Faithful (Adam-replica) | FDM (printable) |
 |---|---|---|
-| STEP file | [`unauthorized-vault-clone.step`](https://github.com/jmcpheron/vault-study/blob/main/step-source/unauthorized-vault-clone.step) | [`fdm-vault.step`](https://github.com/jmcpheron/vault-study/blob/main/step-source/fdm-vault.step) |
+| STEP file | [`faithful-vault.step`](https://github.com/jmcpheron/vault-study/blob/main/step-source/faithful-vault.step) | [`fdm-vault.step`](https://github.com/jmcpheron/vault-study/blob/main/step-source/fdm-vault.step) |
 | Onshape doc | [open in Onshape ↗](https://cad.onshape.com/documents/eaf3e87c1faae12ad867b335/w/83a96bb8921d1af3abd7aecd/e/9db299b535aaeded5de5120c) | [open in Onshape ↗](https://cad.onshape.com/documents/017898deda56c430272a5497/w/5d7667d0936a708006b152fa/e/8e68069be3521bc23b864206) |
 | Bounding box (mm) | 171 × **50** × 171 | 171 × **31** × 171 |
 | Body shape | Chunky puck (mimics Adam's cast-iron cylinder) | Thin washer with radial cutouts |
@@ -155,12 +155,12 @@ after re-exporting either STEP from Onshape and the page updates:
 ```bash
 # Inspect (prints the same data the table rows are pulled from)
 vaultkit step inspect step-source/fdm-vault.step
-vaultkit step inspect step-source/unauthorized-vault-clone.step
+vaultkit step inspect step-source/faithful-vault.step
 
 # Hero PNGs (writes to docs/assets/generated/)
 vaultkit step render step-source/fdm-vault.step \
     --out docs/assets/generated/fdm-vault-iso.png
-vaultkit step render step-source/unauthorized-vault-clone.step \
+vaultkit step render step-source/faithful-vault.step \
     --out docs/assets/generated/faithful-iso.png
 ```
 

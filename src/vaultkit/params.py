@@ -143,7 +143,7 @@ ONSHAPE = {
         document_id="eaf3e87c1faae12ad867b335",
         workspace_id="83a96bb8921d1af3abd7aecd",
         element_id="9db299b535aaeded5de5120c",
-        step="step-source/unauthorized-vault-clone.step",
+        step="step-source/faithful-vault.step",
     ),
 }
 

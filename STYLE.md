@@ -67,9 +67,11 @@ deep under pretty permalinks, so bare `assets/…` links are bugs.
 - **Faithful** — the CAD reinterpretation of Adam's machined design.
   Lowercase in prose, no scare quotes.
 - **FDM** — the 3D-printer-friendly variant. Uppercase, no hyphen.
-- The STEP file in `step-source/unauthorized-vault-clone.step` keeps
-  its filename as a wink. The neutral name "faithful" appears
-  everywhere else.
+- The faithful STEP export was originally committed as
+  `unauthorized-vault-clone.step` — a wink. Renamed to
+  `step-source/faithful-vault.step` when the repo refocused on
+  "open it and try it": the symmetric `faithful-vault.step` /
+  `fdm-vault.step` pair is clearer for a newcomer downloading files.
 
 ## What not to commit
 
